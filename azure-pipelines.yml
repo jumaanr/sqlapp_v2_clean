@@ -65,6 +65,12 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
+    - task: AzureKeyVault@2
+      inputs:
+        azureSubscription: 'Azure for Students (09688c0b-8d07-41e6-ad43-b4a1b7329fbc)'
+        KeyVaultName: 'azurepipelinekeys'
+        SecretsFilter: '*'
+        RunAsPreJob: true
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'Azure for Students (09688c0b-8d07-41e6-ad43-b4a1b7329fbc)'
@@ -79,7 +85,7 @@ stages:
             --memory 1 \
             --registry-login-server azcrazdevopseastus.azurecr.io \
             --registry-username azcrazdevopseastus \
-            --registry-password $(DOCKERPASS) \
+            --registry-password $(DOCKERPASSWORD) \
             --ports 80 \
             --ip-address public
         addSpnToEnvironment: true
