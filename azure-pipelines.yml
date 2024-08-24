@@ -78,7 +78,7 @@ stages:
             --cpu 1 \
             --memory 1 \
             --registry-login-server azcrazdevopseastus.azurecr.io \
-            --registry-username $DOCKER_USER \
+            --registry-username azcrazdevopseastus \
             --registry-password $DOCKER_PASS \
             --ports 80 \
             --ip-address public
