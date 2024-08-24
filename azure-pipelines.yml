@@ -78,8 +78,9 @@ stages:
             --cpu 1 \
             --memory 1 \
             --registry-login-server azcrazdevopseastus.azurecr.io \
-            --registry-username azcrazdevopseastus \
+            --registry-username $(DOCKER_USER) \
             --registry-password $(DOCKER_PASS) \
             --ports 80 \
             --ip-address public
+        addSpnToEnvironment: true
             
