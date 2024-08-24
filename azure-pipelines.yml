@@ -67,7 +67,7 @@ stages:
     steps:
     - task: AzureCLI@2
       inputs:
-        azureSubscription: '09688c0b-8d07-41e6-ad43-b4a1b7329fbc'
+        azureSubscription: 'Azure for Students (09688c0b-8d07-41e6-ad43-b4a1b7329fbc)'
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
@@ -82,4 +82,4 @@ stages:
             --registry-password $DOCKER_PASS \
             --ports 80 \
             --ip-address public
-        addSpnToEnvironment: true
+            
