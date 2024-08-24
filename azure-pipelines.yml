@@ -79,7 +79,7 @@ stages:
             --memory 1 \
             --registry-login-server azcrazdevopseastus.azurecr.io \
             --registry-username azcrazdevopseastus \
-            --registry-password $DOCKER_PASS \
+            --registry-password $(DOCKER_PASS) \
             --ports 80 \
             --ip-address public
             
