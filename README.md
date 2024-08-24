@@ -15,3 +15,14 @@ The output shows that the actual sqlapp.dll file resides inside the sqlapp direc
 Refer to the respective pipeline file as azure-pipeline-debug.yaml
 
 When you recreate this project, use the same source code, but the pipeline file is azure-pipeline-debug.yaml
+The following code has been added.
+
+    - pwsh: |       
+       Get-ChildItem -Path $(Build.ArtifactStagingDirectory)\*.* -Recurse -Force | Out-String -Width 180
+      errorActionPreference: continue
+      displayName: 'List content'
+      continueOnError: true
+
+When we are running the Build pipeline, we can see where the actual publish content is saved. 
+![image](https://github.com/user-attachments/assets/a1705b6d-f381-4ef3-b801-cb8b8d1127e8)
+
