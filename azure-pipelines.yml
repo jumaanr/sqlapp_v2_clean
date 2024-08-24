@@ -15,6 +15,7 @@ variables:
   containerRegistry: 'azcrazdevopseastus.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/sqlapp/Dockerfile'
   tag: '$(Build.BuildId)'
+  group: dockervariablegroup
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -57,3 +58,28 @@ stages:
         tags: |
           $(tag)
           latest
+
+- stage: Deploy
+  jobs:
+  - job: DeployContainerInstance
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: '09688c0b-8d07-41e6-ad43-b4a1b7329fbc'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az container create \
+            --resource-group rg-azdevops-eastus \
+            --name sqlapp_newgeneration \
+            --image azcrazdevopseastus.azurecr.io/sqlappdocker:latest \
+            --cpu 1 \
+            --memory 1 \
+            --registry-login-server azcrazdevopseastus.azurecr.io \
+            --registry-username $DOCKER_USER \
+            --registry-password $DOCKER_PASS \
+            --ports 80 \
+            --ip-address public
+        addSpnToEnvironment: true
