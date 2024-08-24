@@ -58,35 +58,4 @@ stages:
         tags: |
           $(tag)
           latest
-
-- stage: Deploy
-  jobs:
-  - job: DeployContainerInstance
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: AzureKeyVault@2
-      inputs:
-        azureSubscription: 'Azure for Students (09688c0b-8d07-41e6-ad43-b4a1b7329fbc)'
-        KeyVaultName: 'azurepipelinekeys'
-        SecretsFilter: '*'
-        RunAsPreJob: true
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: 'Azure for Students (09688c0b-8d07-41e6-ad43-b4a1b7329fbc)'
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          az container create \
-            --resource-group rg-azdevops-eastus \
-            --name sqlapp_newgeneration \
-            --image azcrazdevopseastus.azurecr.io/sqlappdocker:latest \
-            --cpu 1 \
-            --memory 1 \
-            --registry-login-server azcrazdevopseastus.azurecr.io \
-            --registry-username azcrazdevopseastus \
-            --registry-password $(DOCKERPASSWORD) \
-            --ports 80 \
-            --ip-address public
-        addSpnToEnvironment: true
             
